@@ -1,0 +1,31 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+*.db
+*.db-shm
+*.db-wal
+notams.db
+
+## ASP.NET Core secrets
+**/secrets.json
+**/*.pfx
+.env
+
+## Angular
+src/NotamWatcher.Web/node_modules/
+src/NotamWatcher.Web/dist/
+src/NotamWatcher.Web/.angular/
+
+## Docker
+.env.local
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Claude Code
+.claude/

@@ -1,0 +1,54 @@
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: src/NotamWatcher.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - FaaApi__ApiKey=${FAA_API_KEY}
+      - FaaApi__FetchIntervalSeconds=60
+      - Database__Path=/app/data/notams.db
+      - Cors__AllowedOrigins__0=http://localhost:4200
+    volumes:
+      - api-data:/app/data
+      - api-logs:/app/logs
+    ports:
+      - "5000:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  web:
+    build:
+      context: src/NotamWatcher.Web
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Optional: Seq for structured log viewing. Remove this block if not needed.
+  # Access at http://localhost:5341
+  seq:
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5341:80"
+    volumes:
+      - seq-data:/data
+    profiles:
+      - observability
+    restart: unless-stopped
+
+volumes:
+  api-data:
+  api-logs:
+  seq-data:

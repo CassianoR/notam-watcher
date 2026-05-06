@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Force dark mode — the app only ships with a dark theme. */
+:root { color-scheme: dark; }
+html { @apply bg-gray-950 text-gray-100; }
+
+/* Smooth collapse transition for NOTAM raw text panels. */
+.collapsible {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 220ms ease;
+
+  &.open { grid-template-rows: 1fr; }
+  & > div { overflow: hidden; }
+}
