@@ -260,10 +260,10 @@ public sealed class NotamParser : INotamParser
             // Keyword scan handles the Critical escalation for specific U/S cases.
             severity = condCode switch
             {
-                "LC" or "US"  => NotamSeverity.Critical,
-                "XX"          => NotamSeverity.Warning,
-                "CH" or "RH"  => NotamSeverity.Caution,
-                _             => NotamSeverity.Advisory
+                "LC" or "US" => NotamSeverity.Critical,
+                "XX" => NotamSeverity.Warning,
+                "CH" or "RH" => NotamSeverity.Caution,
+                _ => NotamSeverity.Advisory
             };
         }
 
